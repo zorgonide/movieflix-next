@@ -1,9 +1,22 @@
-export default function Home() {
+import { Button } from "@/components/ui/button";
+import { Film } from "lucide-react";
+
+export default function LandingPage() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <h1 className="text-4xl sm:text-5xl font-bold text-center">
-        Welcome to Clerk + Next.js 13
-      </h1>
-    </div>
+    <main className="flex min-h-screen flex-col items-center justify-center p-8 text-center">
+      <div className="mb-8">
+        <h1 className="text-7xl font-extrabold tracking-tight">MovieFlix</h1>
+        <p className="mt-2 text-lg text-mxpink">
+          Your universe of movies. Discover, rate, and discuss.
+        </p>
+      </div>
+
+      <div className="flex flex-col items-center gap-4">
+        <p className="font-semibold">Ready to dive in?</p>
+        <Button href="/home" Icon={Film}>
+          Get Started
+        </Button>
+      </div>
+    </main>
   );
 }
