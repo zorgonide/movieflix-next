@@ -14,6 +14,8 @@ import { db } from "@/lib/db";
 import { Button } from "@/components/ui/button";
 import { User2 } from "lucide-react";
 const inter = Inter({ subsets: ["latin"] });
+import { Analytics } from "@vercel/analytics/next";
+
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -45,6 +47,7 @@ export default async function RootLayout({
               </SignedIn>
             </header>
             {children}
+            <Analytics />
           </UserProvider>
         </body>
       </html>
