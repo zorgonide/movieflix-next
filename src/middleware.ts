@@ -1,19 +1,39 @@
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { jwtVerify } from "jose";
 
-// Create a matcher for public routes that should not require authentication
-// Note the use of (.*) to match all paths under sign-in and sign-up
-const isPublicRoute = createRouteMatcher(["/", "/sign-in(.*)", "/sign-up(.*)"]);
+const PUBLIC_PATHS = [
+  "/",
+  "/login",
+  "/register",
+  "/api/auth/login",
+  "/api/auth/register",
+];
 
-export default clerkMiddleware(async (auth, req) => {
-  // Protect all routes EXCEPT the ones matched by isPublicRoute
-  if (!isPublicRoute(req)) await auth.protect();
-});
+function isPublic(path: string) {
+  return PUBLIC_PATHS.some((p) => path === p || path.startsWith(p + "/"));
+}
+
+export async function middleware(req: NextRequest) {
+  const { pathname } = req.nextUrl;
+  if (isPublic(pathname)) return NextResponse.next();
+
+  const token = req.cookies.get("session")?.value;
+  if (!token) {
+    return NextResponse.redirect(new URL("/login", req.url));
+  }
+
+  try {
+    await jwtVerify(
+      token,
+      new TextEncoder().encode(process.env.AUTH_SECRET || "")
+    );
+    return NextResponse.next();
+  } catch {
+    return NextResponse.redirect(new URL("/login", req.url));
+  }
+}
 
 export const config = {
-  matcher: [
-    // Skip Next.js internals and all static files, unless found in search params
-    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
-    // Always run for API routes
-    "/(api|trpc)(.*)",
-  ],
+  matcher: ["/((?!_next|.*\\.(?:png|jpg|jpeg|svg|gif|ico|css|js|map)).*)"],
 };
