@@ -1,87 +1,112 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useUser } from "@/components/providers/user-provider";
+import { Button } from "@/components/ui/buttons/button";
+import Link from "next/link";
 
 export default function RegisterPage() {
-  const { user } = useUser();
+  const router = useRouter();
   const [form, setForm] = useState({
     email: "",
-    password: "",
     firstName: "",
     lastName: "",
+    password: "",
   });
   const [error, setError] = useState<string | null>(null);
-  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
-    const res = await fetch("/api/auth/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    });
-    if (!res.ok) {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
       const data = await res.json().catch(() => ({}));
-      setError(data.error || "Registration failed");
-      return;
+      if (!res.ok) {
+        setError(data.error || "Registration failed");
+        return;
+      }
+      // On successful registration, redirect to login
+      router.push("/login");
+    } catch (e) {
+      setError("An unexpected error occurred." + e);
+    } finally {
+      setLoading(false);
     }
-    router.replace("/home");
-    router.refresh();
   }
-  useEffect(() => {
-    if (user) router.replace("/home");
-  }, [user, router]);
-  if (user) return null;
-  else
-    return (
-      <main className="max-w-md mx-auto p-8 space-y-6">
-        <h1 className="text-3xl font-bold">Create Account</h1>
-        <form onSubmit={submit} className="space-y-4">
-          <input
-            className="w-full rounded p-2 text-black"
-            type="email"
-            placeholder="Email"
-            value={form.email}
-            onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-            required
-          />
-          <div className="flex gap-2">
+
+  return (
+    <main className="flex min-h-screen flex-col items-center justify-center p-4">
+      <div className="w-full max-w-md space-y-6 rounded-xl bg-slate-900/70 p-8 shadow-lg">
+        <h1 className="text-center text-3xl font-bold">Create Account</h1>
+        <form onSubmit={submit} className="space-y-6">
+          <div className="space-y-4">
             <input
-              className="w-1/2 rounded p-2 text-black"
-              placeholder="First name"
-              value={form.firstName}
+              className="w-full rounded-md border-0 bg-white/5 p-3 text-white placeholder:text-gray-400"
+              autoComplete="email"
+              type="email"
+              placeholder="Email"
+              value={form.email}
               onChange={(e) =>
-                setForm((f) => ({ ...f, firstName: e.target.value }))
+                setForm((f) => ({ ...f, email: e.target.value }))
               }
+              required
             />
+            <div className="flex gap-4">
+              <input
+                className="w-full rounded-md border-0 bg-white/5 p-3 text-white placeholder:text-gray-400"
+                autoComplete="given-name"
+                type="text"
+                placeholder="First name"
+                value={form.firstName}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, firstName: e.target.value }))
+                }
+                required
+              />
+              <input
+                className="w-full rounded-md border-0 bg-white/5 p-3 text-white placeholder:text-gray-400"
+                autoComplete="family-name"
+                type="text"
+                placeholder="Last name"
+                value={form.lastName}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, lastName: e.target.value }))
+                }
+                required
+              />
+            </div>
             <input
-              className="w-1/2 rounded p-2 text-black"
-              placeholder="Last name"
-              value={form.lastName}
+              className="w-full rounded-md border-0 bg-white/5 p-3 text-white placeholder:text-gray-400"
+              autoComplete="new-password"
+              type="password"
+              placeholder="Password"
+              value={form.password}
               onChange={(e) =>
-                setForm((f) => ({ ...f, lastName: e.target.value }))
+                setForm((f) => ({ ...f, password: e.target.value }))
               }
+              required
             />
           </div>
-          <input
-            className="w-full rounded p-2 text-black"
-            type="password"
-            placeholder="Password"
-            value={form.password}
-            onChange={(e) =>
-              setForm((f) => ({ ...f, password: e.target.value }))
-            }
-            required
-          />
-          {error && <p className="text-red-400 text-sm">{error}</p>}
-          <button
-            className="bg-green-600 hover:bg-green-700 px-4 py-2 rounded"
-            type="submit"
-          >
-            Register
-          </button>
+          {error && <p className="text-sm text-red-400">{error}</p>}
+          <Button type="submit" disabled={loading} className="w-full">
+            {loading ? "Creating account..." : "Register"}
+          </Button>
         </form>
-      </main>
-    );
+        <p className="text-center text-sm text-gray-400">
+          Already have an account?{" "}
+          <Link
+            href="/login"
+            className="font-medium text-mxpink hover:text-mxpink-hover"
+          >
+            Login
+          </Link>
+        </p>
+      </div>
+    </main>
+  );
 }

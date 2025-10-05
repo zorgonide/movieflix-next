@@ -13,7 +13,7 @@ type ButtonProps = {
 };
 
 const baseClasses =
-  "inline-flex items-center justify-center gap-2 rounded-md bg-white px-6 py-3 font-bold text-mxpink transition-transform duration-200 active:scale-95 hover:opacity-90 disabled:opacity-50 disabled:pointer-events-none cursor-pointer";
+  "w-full inline-flex items-center justify-center gap-2 rounded-md bg-white px-6 py-3 font-bold text-mxpink transition-transform duration-200 active:scale-95 hover:opacity-90 disabled:opacity-50 disabled:pointer-events-none cursor-pointer";
 
 export const Button = ({
   href,

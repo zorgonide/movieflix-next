@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/buttons/button";
 import { useUser } from "@/components/providers/user-provider";
+import Link from "next/link";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -30,7 +31,6 @@ export default function LoginPage() {
       }
       setUser(data.user); // update context
       router.replace("/home"); // client navigation
-      router.refresh(); // ensure server state refreshed
     } finally {
       setLoading(false);
     }
@@ -39,32 +39,49 @@ export default function LoginPage() {
   if (user) return null;
 
   return (
-    <main className="max-w-md mx-auto p-8 space-y-6">
-      <h1 className="text-3xl font-bold">Login</h1>
-      <form onSubmit={submit} className="space-y-4">
-        <input
-          className="w-full rounded p-2 text-black"
-          autoComplete="email"
-          type="email"
-          placeholder="Email"
-          value={form.email}
-          onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-          required
-        />
-        <input
-          className="w-full rounded p-2 text-black"
-          autoComplete="current-password"
-          type="password"
-          placeholder="Password"
-          value={form.password}
-          onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))}
-          required
-        />
-        {error && <p className="text-red-400 text-sm">{error}</p>}
-        <Button type="submit" disabled={loading}>
-          {loading ? "Logging in..." : "Login"}
-        </Button>
-      </form>
+    <main className="flex min-h-screen flex-col items-center justify-center p-4">
+      <div className="w-full max-w-md space-y-6 rounded-xl bg-slate-900/70 p-8 shadow-lg">
+        <h1 className="text-center text-3xl font-bold">Login</h1>
+        <form onSubmit={submit} className="space-y-6">
+          <div className="space-y-4">
+            <input
+              className="w-full rounded-md border-0 bg-white/5 p-3 text-white placeholder:text-gray-400"
+              autoComplete="email"
+              type="email"
+              placeholder="Email"
+              value={form.email}
+              onChange={(e) =>
+                setForm((f) => ({ ...f, email: e.target.value }))
+              }
+              required
+            />
+            <input
+              className="w-full rounded-md border-0 bg-white/5 p-3 text-white placeholder:text-gray-400"
+              autoComplete="current-password"
+              type="password"
+              placeholder="Password"
+              value={form.password}
+              onChange={(e) =>
+                setForm((f) => ({ ...f, password: e.target.value }))
+              }
+              required
+            />
+          </div>
+          {error && <p className="text-sm text-red-400">{error}</p>}
+          <Button type="submit" disabled={loading} className="w-full">
+            {loading ? "Logging in..." : "Login"}
+          </Button>
+        </form>
+        <p className="text-center text-sm text-gray-400">
+          Don&#39;t have an account?{" "}
+          <Link
+            href="/register"
+            className="font-medium text-mxpink hover:text-mxpink-hover"
+          >
+            Register
+          </Link>
+        </p>
+      </div>
     </main>
   );
 }
