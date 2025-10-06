@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/buttons/button";
 import { useUser } from "@/components/providers/user-provider";
 import Link from "next/link";
+import { LogIn } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -68,7 +69,7 @@ export default function LoginPage() {
             />
           </div>
           {error && <p className="text-sm text-red-400">{error}</p>}
-          <Button type="submit" disabled={loading} className="w-full">
+          <Button type="submit" disabled={loading} Icon={LogIn}>
             {loading ? "Logging in..." : "Login"}
           </Button>
         </form>

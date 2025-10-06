@@ -4,7 +4,7 @@ import "./globals.css";
 import { UserProvider } from "@/components/providers/user-provider";
 import { getSessionUser } from "@/lib/auth";
 import { Analytics } from "@vercel/analytics/next";
-import Header from "@/components/ui/header";
+import MainLayout from "@/components/ui/mainLayout";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,8 +19,7 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`${inter.className} bg-mxpurple text-white`}>
         <UserProvider user={user}>
-          <Header />
-          {children}
+          <MainLayout>{children}</MainLayout>
           <Analytics />
         </UserProvider>
       </body>

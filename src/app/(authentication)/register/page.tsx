@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/buttons/button";
 import Link from "next/link";
+import { User } from "lucide-react";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -93,7 +94,7 @@ export default function RegisterPage() {
             />
           </div>
           {error && <p className="text-sm text-red-400">{error}</p>}
-          <Button type="submit" disabled={loading} className="w-full">
+          <Button type="submit" disabled={loading} Icon={User}>
             {loading ? "Creating account..." : "Register"}
           </Button>
         </form>
