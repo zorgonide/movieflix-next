@@ -41,7 +41,7 @@ export default function LoginPage() {
   if (user) return null;
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-4">
+    <main className="flex min-h-dvh flex-col items-center justify-center p-4">
       <div className="w-full max-w-md space-y-6 rounded-xl bg-slate-900/70 p-8 shadow-lg">
         <h1 className="text-center text-3xl font-bold">Login</h1>
         <form onSubmit={submit} className="space-y-6">
