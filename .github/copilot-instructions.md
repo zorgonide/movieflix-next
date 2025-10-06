@@ -1,7 +1,6 @@
 I want to rebuild this project using next.js. The goal is to maximise next js learning. Here’s what I want
 
 - Next app
-- Clerk js authentication
 - Postregsql db like render
 - Tailwind css
 - Typescript
