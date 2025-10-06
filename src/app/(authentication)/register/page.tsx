@@ -32,6 +32,7 @@ export default function RegisterPage() {
         return;
       }
       // On successful registration, redirect to login
+      router.refresh();
       router.push("/login");
     } catch (e) {
       setError("An unexpected error occurred." + e);

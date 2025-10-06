@@ -31,6 +31,7 @@ export default function LoginPage() {
         return;
       }
       setUser(data.user); // update context
+      router.refresh();
       router.replace("/home"); // client navigation
     } finally {
       setLoading(false);
