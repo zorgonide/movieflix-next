@@ -5,7 +5,7 @@ import { UserProvider } from "@/components/providers/user-provider";
 import { getSessionUser } from "@/lib/auth";
 import { Analytics } from "@vercel/analytics/next";
 import MainLayout from "@/components/ui/mainLayout";
-
+import { SpeedInsights } from "@vercel/speed-insights/next";
 const inter = Inter({ subsets: ["latin"] });
 
 export default async function RootLayout({
@@ -21,6 +21,7 @@ export default async function RootLayout({
         <UserProvider user={user}>
           <MainLayout>{children}</MainLayout>
           <Analytics />
+          <SpeedInsights />
         </UserProvider>
       </body>
     </html>
