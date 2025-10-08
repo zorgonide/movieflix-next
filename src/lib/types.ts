@@ -17,3 +17,10 @@ export type MovieWithDetails = Prisma.MovieGetPayload<{
     Rating: true;
   };
 }>;
+
+export type FetchArgs = {
+  url: string;
+  data?: any;
+  tmdb?: boolean;
+  useCache?: boolean;
+};
