@@ -4,7 +4,7 @@ import "./globals.css";
 import { UserProvider } from "@/components/providers/user-provider";
 import { getSessionUser } from "@/lib/auth";
 import { Analytics } from "@vercel/analytics/next";
-import MainLayout from "@/components/ui/mainLayout";
+import MainLayout from "@/components/ui/MainLayout";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 const inter = Inter({ subsets: ["latin"] });
 
