@@ -13,6 +13,7 @@ export function LogoutButton() {
     <Button
       disabled={pending}
       Icon={LogOut}
+      secondary={true}
       onClick={() =>
         start(async () => {
           await fetch("/api/auth/logout", { method: "POST" });
