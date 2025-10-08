@@ -10,10 +10,12 @@ type ButtonProps = {
   type?: "button" | "submit" | "reset";
   disabled?: boolean;
   className?: string;
+  fullWidth?: boolean;
+  secondary?: boolean;
 };
 
 const baseClasses =
-  "w-full inline-flex items-center justify-center gap-2 rounded-md bg-white px-6 py-3 font-bold text-mxpink transition-transform duration-200 active:scale-95 hover:opacity-90 disabled:opacity-50 disabled:pointer-events-none cursor-pointer";
+  "inline-flex items-center justify-center gap-2 rounded-md px-6 py-3 font-bold  transition-transform duration-200 active:scale-95 hover:opacity-90 disabled:opacity-50 disabled:pointer-events-none cursor-pointer";
 
 export const Button = ({
   href,
@@ -23,8 +25,12 @@ export const Button = ({
   type = "button",
   disabled,
   className = "",
+  fullWidth = true,
+  secondary = false,
 }: ButtonProps) => {
-  const classes = `${baseClasses} ${className}`;
+  const classes = `${baseClasses} ${className} ${fullWidth ? "w-full" : ""} ${
+    secondary ? "bg-mxpink text-white" : "bg-white text-mxpink"
+  }`;
 
   if (href) {
     return (
