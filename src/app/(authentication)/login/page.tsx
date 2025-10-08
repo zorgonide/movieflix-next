@@ -43,7 +43,7 @@ export default function LoginPage() {
       <div className="w-full max-w-md space-y-6 rounded-xl bg-slate-900/70 p-8 shadow-lg [animation:pop-in_0.3s_ease-out_forwards]">
         <h1 className="text-center text-3xl font-bold">Login</h1>
         <form onSubmit={submit} className="space-y-6">
-          <div className="space-y-4">
+          <div className="space-y-4 [animation:pop-in_0.3s_ease-out_forwards]">
             <input
               className="w-full rounded-md border-0 bg-white/5 p-3 text-white placeholder:text-gray-400"
               autoComplete="email"
