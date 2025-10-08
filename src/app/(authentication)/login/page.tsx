@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/buttons/button";
 import { useUser } from "@/components/providers/user-provider";
 import Link from "next/link";
 import { LogIn } from "lucide-react";
+import { fpost } from "@/lib/api";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -20,17 +21,13 @@ export default function LoginPage() {
     setError(null);
     setLoading(true);
     try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        setError(data.error || "Login failed");
-        return;
-      }
-      window.location.href = "/home";
+      fpost({ url: "/api/auth/login", data: form })
+        .then(() => {
+          window.location.href = "/home";
+        })
+        .catch((err) => {
+          setError(err.message || "Login failed");
+        });
     } finally {
       setLoading(false);
     }
