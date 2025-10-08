@@ -9,7 +9,9 @@ const nextConfig: NextConfig = {
     // Allow production build even if there are type errors (use cautiously)
     ignoreBuildErrors: true,
   },
-  // ...other config
+  images: {
+    domains: ["image.tmdb.org"],
+  },
 };
 
 export default nextConfig;
