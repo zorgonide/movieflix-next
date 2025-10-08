@@ -37,7 +37,13 @@ export const fget = async ({
 }: FetchArgs) => {
   if (useCache && cache.has(url)) return cache.get(url);
   const fullUrl = `${baseUrl(tmdb)}${url}`;
-  const res = await handleFetch(fullUrl);
+  const res = await handleFetch(fullUrl, {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: tmdb ? `Bearer ${process.env.NEXT_PUBLIC_TMDB_KEY}` : "",
+    },
+  });
   if (useCache) cache.set(url, res);
   return res;
 };
