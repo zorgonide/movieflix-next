@@ -21,16 +21,7 @@ export async function POST(req: Request) {
 
     await createSession(user.id);
 
-    const safeUser = {
-      id: user.id,
-      email: user.email,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      role: user.role,
-      genres: user.genres,
-    };
-
-    return NextResponse.json({ user: safeUser });
+    return NextResponse.json({ success: true });
   } catch (e) {
     console.error("LOGIN_ERROR", e);
     return NextResponse.json({ error: "Internal error" }, { status: 500 });

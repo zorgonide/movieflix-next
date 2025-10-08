@@ -8,7 +8,7 @@ import { LogIn } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
-  const { user, setUser } = useUser();
+  const { user } = useUser();
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -30,9 +30,7 @@ export default function LoginPage() {
         setError(data.error || "Login failed");
         return;
       }
-      setUser(data.user); // update context
-      router.refresh();
-      router.replace("/home"); // client navigation
+      window.location.href = "/home";
     } finally {
       setLoading(false);
     }
@@ -42,7 +40,7 @@ export default function LoginPage() {
 
   return (
     <main className="flex min-h-dvh flex-col items-center justify-center p-4">
-      <div className="w-full max-w-md space-y-6 rounded-xl bg-slate-900/70 p-8 shadow-lg">
+      <div className="w-full max-w-md space-y-6 rounded-xl bg-slate-900/70 p-8 shadow-lg [animation:pop-in_0.3s_ease-out_forwards]">
         <h1 className="text-center text-3xl font-bold">Login</h1>
         <form onSubmit={submit} className="space-y-6">
           <div className="space-y-4">

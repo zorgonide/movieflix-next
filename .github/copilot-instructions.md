@@ -1,4 +1,4 @@
-I want to rebuild this project using next.js. The goal is to maximise next js learning. Here’s what I want
+I want to build this project using next.js. The goal is to maximise next js learning. Here’s what I want
 
 - Next app
 - Postregsql db like render

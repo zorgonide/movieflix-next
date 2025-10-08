@@ -1,8 +1,24 @@
 @import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 @theme {
   --color-mxpurple: #37306b;
   --color-mx-clerk-pink: #6610f2;
   --color-mx-light-purple: #6f42c1;
   --color-mxpink: #e31c5f;
   --color-mxpink-hover: #b8174c;
+}
+
+@layer base {
+  @keyframes pop-in {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
 }

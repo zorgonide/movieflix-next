@@ -43,7 +43,7 @@ export default function RegisterPage() {
 
   return (
     <main className="flex min-h-dvh flex-col items-center justify-center p-4">
-      <div className="w-full max-w-md space-y-6 rounded-xl bg-slate-900/70 p-8 shadow-lg">
+      <div className="w-full max-w-md space-y-6 rounded-xl bg-slate-900/70 p-8 shadow-lg [animation:pop-in_0.3s_ease-out_forwards]">
         <h1 className="text-center text-3xl font-bold">Create Account</h1>
         <form onSubmit={submit} className="space-y-6">
           <div className="space-y-4">
