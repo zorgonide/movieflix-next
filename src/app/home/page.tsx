@@ -11,7 +11,7 @@ export default function HomePage() {
   const hasGenres = user && user.genres && user.genres !== "[]";
 
   return (
-    <main className="container mx-auto p-8">
+    <main className="container min-h-dvh mx-auto p-8">
       {!user ? (
         <div className="text-center font-mono">Loading profile...</div>
       ) : hasGenres ? (

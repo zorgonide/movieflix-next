@@ -25,3 +25,12 @@ export type FetchArgs = {
   tmdb?: boolean;
   useCache?: boolean;
 };
+export type Genre = {
+  id: number;
+  name: string;
+};
+export type tmdbMovie = {
+  id: number;
+  title: string;
+  poster_path: string;
+};

@@ -5,11 +5,7 @@ import { useUser } from "@/components/providers/user-provider";
 import { fget, fpost } from "@/lib/api";
 import { Button } from "@/components/ui/buttons/button";
 import { ListPlus } from "lucide-react";
-
-interface Genre {
-  id: number;
-  name: string;
-}
+import { Genre } from "@/lib/types";
 
 export default function GenreSelector() {
   const { setUser } = useUser();
@@ -64,35 +60,43 @@ export default function GenreSelector() {
   };
 
   return (
-    <div className="text-center">
-      <h1 className="text-3xl font-bold">Welcome!</h1>
-      <p className="mt-2 text-lg text-gray-300">
-        Select at least 2 of your favorite genres to get movie recommendations.
-      </p>
-      <div className="my-8 flex flex-wrap justify-center gap-3">
-        {genres.map((genre) => (
-          <button
-            key={genre.id}
-            onClick={() => toggleGenre(genre.id)}
-            className={`cursor-pointer rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
-              selectedGenres.includes(genre.id)
-                ? "bg-mxpink text-white"
-                : "bg-slate-700 text-gray-200 hover:bg-slate-600"
-            }`}
+    <div className="flex flex-col items-center justify-center">
+      <div className="w-full max-w-2xl space-y-8 rounded-xl bg-slate-900/70 p-8 shadow-lg [animation:pop-in_0.3s_ease-out_forwards]">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold">Welcome to MovieFlix</h1>
+          <p className="mt-2 text-lg text-mxpink">
+            Select at least 2 of your favorite genres to get started.
+          </p>
+        </div>
+
+        <div className="flex flex-wrap justify-center gap-3">
+          {genres.map((genre) => (
+            <button
+              key={genre.id}
+              onClick={() => toggleGenre(genre.id)}
+              className={`cursor-pointer rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200 ${
+                selectedGenres.includes(genre.id)
+                  ? "scale-110 bg-mxpink text-white"
+                  : "bg-slate-700 text-gray-200 hover:bg-slate-600"
+              }`}
+            >
+              {genre.name}
+            </button>
+          ))}
+        </div>
+
+        <div className="flex flex-col items-center">
+          {error && <p className="mb-4 text-sm text-red-400">{error}</p>}
+          <Button
+            onClick={handleSave}
+            disabled={loading || selectedGenres.length < 2}
+            Icon={ListPlus}
+            fullWidth={false}
           >
-            {genre.name}
-          </button>
-        ))}
+            {loading ? "Saving..." : "Save Genres"}
+          </Button>
+        </div>
       </div>
-      {error && <p className="mb-4 text-sm text-red-400">{error}</p>}
-      <Button
-        onClick={handleSave}
-        disabled={loading || selectedGenres.length < 2}
-        Icon={ListPlus}
-        fullWidth={false}
-      >
-        {loading ? "Saving..." : "Save Genres"}
-      </Button>
     </div>
   );
 }

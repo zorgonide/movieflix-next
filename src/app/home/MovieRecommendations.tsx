@@ -4,19 +4,14 @@ import { useEffect, useState } from "react";
 import { fget } from "@/lib/api";
 import Image from "next/image";
 import Link from "next/link";
-
-interface Movie {
-  id: number;
-  title: string;
-  poster_path: string;
-}
+import { tmdbMovie } from "@/lib/types";
 
 export default function MovieRecommendations({
   genreIds,
 }: {
   genreIds: string;
 }) {
-  const [movies, setMovies] = useState<Movie[]>([]);
+  const [movies, setMovies] = useState<tmdbMovie[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
