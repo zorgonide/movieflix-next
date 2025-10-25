@@ -42,7 +42,10 @@ const Header = () => {
 
   return (
     <header className="relative flex justify-between items-center p-4 h-16 bg-mx-light-purple">
-      <Link href="/home" className="text-2xl font-bold text-white">
+      <Link
+        href="/home"
+        className="text-2xl font-mono tracking-wide text-white"
+      >
         MovieFlix
       </Link>
 
