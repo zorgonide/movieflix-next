@@ -13,10 +13,9 @@ export default function MoviePoster({ movie }: { movie: tmdbMovie }) {
           width={500}
           height={750}
         />
-        <div className="p-2">
-          <h3 className="truncate text-sm text-center font-semibold">
-            {movie.title}
-          </h3>
+        <div className="flex p-2">
+          <h3 className="truncate text-sm font-semibold">{movie.title}</h3>
+          <h3 className="ml-auto text-sm">{movie.release_date?.slice(0, 4)}</h3>
         </div>
       </div>
     </Link>

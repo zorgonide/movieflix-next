@@ -33,4 +33,5 @@ export type tmdbMovie = {
   id: number;
   title: string;
   poster_path: string;
+  release_date: string;
 };
