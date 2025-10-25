@@ -6,6 +6,7 @@ import { getSessionUser } from "@/lib/auth";
 import { Analytics } from "@vercel/analytics/next";
 import MainLayout from "@/components/ui/MainLayout";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import PageLoader from "@/components/ui/PageLoader";
 const inter = Inter({ subsets: ["latin"] });
 
 export default async function RootLayout({
@@ -19,7 +20,10 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`${inter.className} bg-mxpurple text-white`}>
         <UserProvider user={user}>
-          <MainLayout>{children}</MainLayout>
+          <MainLayout>
+            <PageLoader />
+            {children}
+          </MainLayout>
           <Analytics />
           <SpeedInsights />
         </UserProvider>

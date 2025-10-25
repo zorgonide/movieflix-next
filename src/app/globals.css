@@ -22,3 +22,7 @@
     }
   }
 }
+#nprogress .bar {
+  background: #ec4899 !important; /* This is a Tailwind pink-500 color */
+  height: 3px !important;
+}

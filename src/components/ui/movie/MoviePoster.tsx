@@ -1,10 +1,10 @@
 import Image from "next/image";
-import Link from "next/link";
+import CustomLink from "@/components/ui/CustomLink"; // Use the new CustomLink
 import { tmdbMovie } from "@/lib/types";
 
 export default function MoviePoster({ movie }: { movie: tmdbMovie }) {
   return (
-    <Link href={`/movie/${movie.id}`} key={movie.id}>
+    <CustomLink href={`/movie/${movie.id}`} key={movie.id}>
       <div className="flex h-full cursor-pointer flex-col overflow-hidden rounded-sm bg-slate-800 transition-transform hover:scale-105">
         <div className="relative w-full aspect-[2/3]">
           <Image
@@ -22,6 +22,6 @@ export default function MoviePoster({ movie }: { movie: tmdbMovie }) {
           </h3>
         </div>
       </div>
-    </Link>
+    </CustomLink>
   );
 }
