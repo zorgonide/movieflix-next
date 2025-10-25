@@ -5,7 +5,7 @@ import { fget } from "@/lib/api";
 import { tmdbMovie } from "@/lib/types";
 import { Button } from "@/components/ui/buttons/button";
 import { Loader2 } from "lucide-react";
-import MoviePoster from "@/components/ui/MoviePoster";
+import MoviePoster from "@/components/ui/movie/MoviePoster";
 
 export default function MovieRecommendations({
   genreIds,
