@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/buttons/button";
 import { useUser } from "@/components/providers/user-provider";
-import Link from "next/link";
 import { LogIn } from "lucide-react";
 import { fpost } from "@/lib/api";
 import CustomLink from "@/components/ui/CustomLink";
