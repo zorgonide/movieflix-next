@@ -38,3 +38,8 @@ export type tmdbMovie = {
   backdrop_path: string;
   vote_average: number;
 };
+export interface StarRatingProps {
+  initialRating: number;
+  movieId: number;
+  onRate: (rating: number) => Promise<void>; // Function to call when a rating is submitted
+}
