@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { LucideIcon } from "lucide-react";
 import React from "react";
+import CustomLink from "../CustomLink";
 
 type ButtonProps = {
   children: React.ReactNode;
@@ -34,7 +34,7 @@ export const Button = ({
 
   if (href) {
     return (
-      <Link
+      <CustomLink
         href={href}
         onClick={onClick}
         aria-disabled={disabled || undefined}
@@ -42,7 +42,7 @@ export const Button = ({
       >
         {Icon && <Icon size={20} />}
         {children}
-      </Link>
+      </CustomLink>
     );
   }
 
