@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Button } from "../../ui/buttons/button";
+import { Button } from "../../../components/ui/buttons/button";
 import { Check, Plus } from "lucide-react";
 import { Movie } from "@prisma/client";
+import { MovieDescription } from "@/components/ui/movie/MovieDescription";
 // import MovieHeader from "./MovieHeader";
 // import CommentSection from "./CommentSection";
 
@@ -24,7 +25,7 @@ export default function MovieDetailClient({ movie }: { movie: Movie }) {
           alt={movie.title}
           width={500}
           height={750}
-          className="w-full max-w-xs rounded-lg object-cover shadow-lg"
+          className="w-full max-w-xs rounded-sm object-cover shadow-lg"
         />
         <Button
           className="mt-4 w-full max-w-xs"
@@ -37,6 +38,7 @@ export default function MovieDetailClient({ movie }: { movie: Movie }) {
 
       {/* Right Column: Movie Details */}
       <div className="col-span-1 md:col-span-2 lg:col-span-3">
+        <MovieDescription movie={movie} />
         {/* <MovieHeader movie={movie} />
         <CommentSection comments={movie.Comment} movieId={movie.id} /> */}
       </div>
