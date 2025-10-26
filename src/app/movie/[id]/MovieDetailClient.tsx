@@ -3,22 +3,52 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Button } from "../../../components/ui/buttons/button";
-import { Check, Plus } from "lucide-react";
-import { Movie } from "@prisma/client";
+import { Check, Loader2, Plus } from "lucide-react";
+import { Movie } from "@/lib/types";
 import { MovieDescription } from "@/components/ui/movie/MovieDescription";
-// import MovieHeader from "./MovieHeader";
-// import CommentSection from "./CommentSection";
+import { useUser } from "@/components/providers/user-provider";
+import { fpost, fdelete } from "@/lib/api";
 
-// The component now receives the movie data as a prop
-export default function MovieDetailClient({ movie }: { movie: Movie }) {
-  // State is now only for client-side interactions
-  const [inWatchlist, setInWatchlist] = useState(false); // Placeholder state
+export default function MovieDetailClient({
+  movie,
+  initialWatchlistStatus,
+}: {
+  movie: Movie;
+  initialWatchlistStatus: boolean;
+}) {
+  const { user } = useUser();
 
-  // No more useEffect, loading, or error states for the initial data!
+  // The initial state is now directly provided by the server!
+  const [inWatchlist, setInWatchlist] = useState(initialWatchlistStatus);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleToggleWatchlist = async () => {
+    if (!user) {
+      alert("Please log in to add movies to your watchlist.");
+      return;
+    }
+
+    setIsSubmitting(true);
+    const wasInWatchlist = inWatchlist;
+    setInWatchlist(!wasInWatchlist); // Optimistic update
+
+    try {
+      if (wasInWatchlist) {
+        await fdelete({ url: "/api/watchlist", data: { movieId: movie.id } });
+      } else {
+        await fpost({ url: "/api/watchlist", data: { movieId: movie.id } });
+      }
+    } catch (error) {
+      console.error("Failed to update watchlist:", error);
+      setInWatchlist(wasInWatchlist); // Revert on error
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:grid-cols-4">
-      {/* Left Column: Poster and Actions */}
       <div className="col-span-1 flex flex-col items-center md:items-start">
         <Image
           src={`https://image.tmdb.org/t/p/w500${movie.poster}`}
@@ -29,18 +59,15 @@ export default function MovieDetailClient({ movie }: { movie: Movie }) {
         />
         <Button
           className="mt-4 w-full max-w-xs"
-          Icon={inWatchlist ? Check : Plus}
-          onClick={() => setInWatchlist(!inWatchlist)} // Placeholder action
+          Icon={isSubmitting ? Loader2 : inWatchlist ? Check : Plus}
+          onClick={handleToggleWatchlist}
+          disabled={isSubmitting}
         >
-          {inWatchlist ? "Added to Watchlist" : "Add to Watchlist"}
+          {inWatchlist ? "In Watchlist" : "Add to Watchlist"}
         </Button>
       </div>
-
-      {/* Right Column: Movie Details */}
       <div className="col-span-1 md:col-span-2 lg:col-span-3">
         <MovieDescription movie={movie} />
-        {/* <MovieHeader movie={movie} />
-        <CommentSection comments={movie.Comment} movieId={movie.id} /> */}
       </div>
     </div>
   );

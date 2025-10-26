@@ -1,48 +1,57 @@
 import { db } from "./db";
 import { fget } from "./api";
 import { tmdbMovie } from "./types";
+import { getSessionUser } from "./auth"; // Import session helper
 
 export async function getOrCreateMovie(movieId: number) {
+  const user = await getSessionUser(); // Get the current user on the server
+
   // 1. Try to find the movie in your local database
   const movie = await db.movie.findUnique({
     where: { id: movieId },
     include: {
       Comment: { include: { user: true } },
       Rating: true,
+      WatchList: true, // We only need the userId, so no need for nested include
     },
   });
 
-  // 2. If found, return it
+  // 2. If found, calculate watchlist status and return both
   if (movie) {
-    return movie;
+    const isUserInWatchlist = user
+      ? movie.WatchList.some((item) => item.userId === user.id)
+      : false;
+    return { movie, isUserInWatchlist };
   }
 
   // 3. If not found, fetch from TMDB
-  const tmdbMovie: tmdbMovie = await fget({
-    url: `/movie/${movieId}`,
+  const tmdbMovieData: tmdbMovie = await fget({
+    url: `/movie/${movieId}?append_to_response=credits`,
     tmdb: true,
   });
 
-  if (!tmdbMovie || !tmdbMovie.id) {
+  if (!tmdbMovieData || !tmdbMovieData.id) {
     throw new Error("Movie not found on TMDB");
   }
 
-  // 4. Create it in your DB using upsert for safety and return the new record
-  return db.movie.upsert({
-    where: { id: movieId },
-    update: {}, // No update needed if found concurrently
-    create: {
-      id: tmdbMovie.id,
-      title: tmdbMovie.title,
-      description: tmdbMovie.overview,
-      poster: tmdbMovie.poster_path,
-      background: tmdbMovie.backdrop_path,
-      year: tmdbMovie.release_date?.slice(0, 4) || "",
-      imdbRating: tmdbMovie.vote_average,
+  // 4. Create the movie in your DB
+  const newMovie = await db.movie.create({
+    data: {
+      id: tmdbMovieData.id,
+      title: tmdbMovieData.title,
+      description: tmdbMovieData.overview,
+      poster: tmdbMovieData.poster_path,
+      background: tmdbMovieData.backdrop_path,
+      year: tmdbMovieData.release_date?.slice(0, 4) || "",
+      imdbRating: tmdbMovieData.vote_average,
     },
     include: {
-      Comment: { include: { user: true } },
+      Comment: true,
       Rating: true,
+      WatchList: true,
     },
   });
+
+  // For a new movie, the user is definitely not in the watchlist yet.
+  return { movie: newMovie, isUserInWatchlist: false };
 }

@@ -7,15 +7,19 @@ export default async function MoviePage({
 }: {
   params: { id: string };
 }) {
-  const movieId = parseInt(params.id, 10);
+  const movieId = parseInt(await params.id, 10);
 
   try {
-    // Fetch data directly on the server
-    const movie = await getOrCreateMovie(movieId);
+    // Destructure the movie and the new watchlist status
+    const { movie, isUserInWatchlist } = await getOrCreateMovie(movieId);
 
     return (
       <main className="container mx-auto p-4 md:p-8">
-        <MovieDetailClient movie={movie} />
+        {/* Pass both as props to the client component */}
+        <MovieDetailClient
+          movie={movie}
+          initialWatchlistStatus={isUserInWatchlist}
+        />
       </main>
     );
   } catch (error) {
