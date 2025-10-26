@@ -1,9 +1,9 @@
 "use client";
 import { useState } from "react";
-import Link from "next/link";
 import { useUser } from "@/components/providers/user-provider";
 import { LogoutButton } from "./buttons/logoutButton";
 import { Menu, X } from "lucide-react";
+import CustomLink from "./CustomLink";
 
 const Header = () => {
   const { user } = useUser();
@@ -11,24 +11,6 @@ const Header = () => {
 
   const NavContent = () => (
     <>
-      {!user && (
-        <nav className="flex flex-col md:flex-row items-center gap-4 text-sm">
-          <Link
-            href="/login"
-            className="hover:underline"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Login
-          </Link>
-          <Link
-            href="/register"
-            className="hover:underline"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Register
-          </Link>
-        </nav>
-      )}
       {user && (
         <div className="flex w-full flex-col items-start gap-3 text-sm md:flex-row md:items-center">
           <span className="truncate">{user.email}</span>
@@ -42,12 +24,12 @@ const Header = () => {
 
   return (
     <header className="relative flex justify-between items-center p-4 h-16 bg-mx-light-purple">
-      <Link
+      <CustomLink
         href="/home"
         className="text-2xl font-mono tracking-wide text-white"
       >
         MovieFlix
-      </Link>
+      </CustomLink>
 
       {/* Desktop Menu */}
       <div className="hidden md:flex items-center gap-4">

@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/buttons/button";
 import Link from "next/link";
 import { User } from "lucide-react";
+import CustomLink from "@/components/ui/CustomLink";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -101,12 +102,12 @@ export default function RegisterPage() {
         </form>
         <p className="text-center text-sm text-gray-400">
           Already have an account?{" "}
-          <Link
+          <CustomLink
             href="/login"
             className="font-medium text-mxpink hover:text-mxpink-hover"
           >
             Login
-          </Link>
+          </CustomLink>
         </p>
       </div>
     </main>

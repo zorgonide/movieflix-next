@@ -6,6 +6,7 @@ import { useUser } from "@/components/providers/user-provider";
 import Link from "next/link";
 import { LogIn } from "lucide-react";
 import { fpost } from "@/lib/api";
+import CustomLink from "@/components/ui/CustomLink";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -71,12 +72,12 @@ export default function LoginPage() {
         </form>
         <p className="text-center text-sm text-gray-400">
           Don&#39;t have an account?{" "}
-          <Link
+          <CustomLink
             href="/register"
             className="font-medium text-mxpink hover:text-mxpink-hover"
           >
             Register
-          </Link>
+          </CustomLink>
         </p>
       </div>
     </main>
