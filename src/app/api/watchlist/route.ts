@@ -1,5 +1,5 @@
 import { db } from "@/lib/db";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { withAuth } from "@/lib/auth-wrapper";
 
 export const GET = withAuth(async (_req, { user }) => {
@@ -37,16 +37,30 @@ export const POST = withAuth(async (req, { user }) => {
   }
 });
 
-export const DELETE = withAuth(async (req, { user }) => {
-  const { movieId } = await req.json();
+export const DELETE = withAuth(async (req: NextRequest, { user }) => {
+  // Read the movieId from the URL search parameters
+  const { searchParams } = new URL(req.url);
+  const movieIdParam = await searchParams.get("movieId");
+  console.log("Received DELETE request for movieId:", movieIdParam);
+  if (!movieIdParam) {
+    return NextResponse.json(
+      { error: "Movie ID is required" },
+      { status: 400 }
+    );
+  }
+
+  const movieId = parseInt(movieIdParam, 10);
+  console.log("Deleting movieId:", movieId, "for userId:", user.id);
   try {
-    const deletedItem = await db.watchList.deleteMany({
+    await db.watchList.deleteMany({
       where: {
         userId: user.id,
         movieId: movieId,
       },
     });
-    return NextResponse.json({ deletedItem });
+    return NextResponse.json({
+      message: "Successfully removed from watchlist",
+    });
   } catch (error) {
     console.error("Failed to remove movie from watchlist:", error);
     return NextResponse.json(
