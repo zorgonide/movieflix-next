@@ -34,7 +34,7 @@ export default function MovieDetailClient({
 
     try {
       if (wasInWatchlist) {
-        await fdelete({ url: "/api/watchlist", data: { movieId: movie.id } });
+        await fdelete({ url: `/api/watchlist?movieId=${movie.id}` });
       } else {
         await fpost({ url: "/api/watchlist", data: { movieId: movie.id } });
       }
