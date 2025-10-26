@@ -19,7 +19,7 @@ export async function getOrCreateMovie(movieId: number) {
 
   // 3. If not found, fetch from TMDB
   const tmdbMovie: tmdbMovie = await fget({
-    url: `/movie/${movieId}?append_to_response=credits`,
+    url: `/movie/${movieId}`,
     tmdb: true,
   });
 
