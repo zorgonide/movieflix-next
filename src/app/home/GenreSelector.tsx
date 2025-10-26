@@ -40,8 +40,8 @@ export default function GenreSelector() {
   };
 
   const handleSave = async () => {
-    if (selectedGenres.length < 2) {
-      setError("Please select at least 2 genres.");
+    if (selectedGenres.length < 1) {
+      setError("Please select at least 1 genre.");
       return;
     }
     setLoading(true);
@@ -65,7 +65,7 @@ export default function GenreSelector() {
         <div className="text-center">
           <h1 className="text-3xl font-bold">Welcome to MovieFlix</h1>
           <p className="mt-2 text-lg text-mxpink">
-            Select at least 2 of your favorite genres to get started.
+            Select at least 1 of your favorite genres to get started.
           </p>
         </div>
 
@@ -89,7 +89,7 @@ export default function GenreSelector() {
           {error && <p className="mb-4 text-sm text-red-400">{error}</p>}
           <Button
             onClick={handleSave}
-            disabled={loading || selectedGenres.length < 2}
+            disabled={loading || selectedGenres.length < 1}
             Icon={ListPlus}
             fullWidth={false}
           >
