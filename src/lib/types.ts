@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 import type { Prisma } from "@prisma/client";
+import { NextRequest, NextResponse } from "next/server";
 
 export type User = Prisma.UserGetPayload<{}>;
 
@@ -43,3 +44,7 @@ export interface StarRatingProps {
   movieId: number;
   onRate: (rating: number) => Promise<void>; // Function to call when a rating is submitted
 }
+export type AuthenticatedApiHandler = (
+  req: NextRequest,
+  context: { params: never; user: PublicUser }
+) => Promise<NextResponse> | NextResponse;
