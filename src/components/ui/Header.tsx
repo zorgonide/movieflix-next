@@ -26,7 +26,12 @@ const Header = () => {
       )}
       {user ? (
         <div className="flex w-full flex-col items-start gap-3 text-sm md:flex-row md:items-center ">
-          <span className="truncate hidden md:block">{user.email}</span>
+          <CustomLink
+            href="/profile"
+            className="truncate hidden rounded p-2 font-mono font-bold text-white transition-colors duration-200 hover:bg-white hover:text-mxpurple md:block"
+          >
+            {user.firstName}
+          </CustomLink>
           <form action="/api/auth/logout" method="POST">
             <LogoutButton />
           </form>
