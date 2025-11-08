@@ -14,11 +14,10 @@ export function MovieDescription({ movie }: { movie: Movie }) {
         </h3>
       </div>
       <div className="mt-4">
-        <StarRating
-          initialRating={1}
-          movieId={movie.id}
-          onRate={async () => {}}
-        />
+        <h2 className="text-lg text-gray-300 font-semibold mb-2">
+          Your Rating
+        </h2>
+        <StarRating initialRating={0} movieId={movie.id} />
       </div>
       <div className="mt-4">
         <h2 className="text-lg text-gray-300 font-semibold">Description</h2>

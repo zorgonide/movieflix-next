@@ -42,7 +42,6 @@ export type tmdbMovie = {
 export interface StarRatingProps {
   initialRating: number;
   movieId: number;
-  onRate: (rating: number) => Promise<void>; // Function to call when a rating is submitted
 }
 export type AuthenticatedApiHandler = (
   req: NextRequest,
