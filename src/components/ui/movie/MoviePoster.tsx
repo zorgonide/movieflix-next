@@ -16,11 +16,16 @@ export default function MoviePoster({ movie }: { movie: any }) {
             sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 17vw"
           />
         </div>
-        <div className="flex flex-grow flex-col p-2">
+        <div className="flex flex-col p-2 ">
           <h3 className="truncate text-sm font-semibold">{movie.title}</h3>
-          <h3 className="mt-auto text-xs text-gray-400">
-            {movie.release_date?.slice(0, 4)}
-          </h3>
+          <div className="flex items-center justify-between mt-1">
+            <h3 className="text-xs text-gray-400">
+              {movie.release_date?.slice(0, 4) || movie.year}
+            </h3>
+            <h3 className="text-sm font-semibold text-white bg-slate-700 px-1 py-1 rounded-sm">
+              {(movie.vote_average || movie.imdbRating)?.toFixed(1)}
+            </h3>
+          </div>
         </div>
       </div>
     </CustomLink>
