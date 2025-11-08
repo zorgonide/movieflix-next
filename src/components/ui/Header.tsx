@@ -28,7 +28,7 @@ const Header = () => {
         <div className="flex w-full flex-col items-start gap-3 md:flex-row md:items-center ">
           <CustomLink
             href="/profile"
-            className="truncate hidden rounded p-2 font-mono font-bold text-white transition-colors duration-200 hover:bg-white hover:text-mxpurple md:block"
+            className="truncate rounded p-2 font-mono font-bold text-white transition-colors duration-200 hover:bg-white hover:text-mxpurple md:block"
           >
             <User size={16} className="mr-2 inline" />
             {user.firstName}
@@ -85,7 +85,7 @@ const Header = () => {
 
       {/* Mobile Menu Drawer */}
       {isMenuOpen && (
-        <div className="absolute left-0 right-0 top-16 z-20 flex flex-col items-start gap-6 bg-mx-light-purple p-6 shadow-lg md:hidden">
+        <div className="absolute left-0 right-0 top-16 z-20 flex flex-col items-start bg-mx-light-purple p-6 pt-0 shadow-lg md:hidden">
           <NavLinks />
         </div>
       )}
