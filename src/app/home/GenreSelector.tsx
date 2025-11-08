@@ -2,13 +2,21 @@
 
 import { useEffect, useState } from "react";
 import { useUser } from "@/components/providers/user-provider";
-import { fget, fpost } from "@/lib/api";
+import { fget, fpost, fpatch } from "@/lib/api";
 import { Button } from "@/components/ui/buttons/button";
 import { ListPlus } from "lucide-react";
 import { Genre } from "@/lib/types";
 
-export default function GenreSelector() {
-  const { setUser } = useUser();
+type GenreSelectorProps = {
+  isUpdate?: boolean;
+  onSuccess?: () => void;
+};
+
+export default function GenreSelector({
+  isUpdate = false,
+  onSuccess,
+}: GenreSelectorProps) {
+  const { user, setUser } = useUser();
   const [genres, setGenres] = useState<Genre[]>([]);
   const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
   const [loading, setLoading] = useState(false);
@@ -31,6 +39,18 @@ export default function GenreSelector() {
     fetchGenres();
   }, []);
 
+  // Pre-populate selected genres if updating
+  useEffect(() => {
+    if (isUpdate && user?.genres && user.genres !== "[]") {
+      try {
+        const userGenres = user.genres.split(",").map(Number);
+        setSelectedGenres(userGenres);
+      } catch (err) {
+        console.error("Failed to parse user genres:", err);
+      }
+    }
+  }, [isUpdate, user?.genres]);
+
   const toggleGenre = (genreId: number) => {
     setSelectedGenres((prev) =>
       prev.includes(genreId)
@@ -47,11 +67,13 @@ export default function GenreSelector() {
     setLoading(true);
     setError(null);
     try {
-      const { user: updatedUser } = await fpost({
+      const apiCall = isUpdate ? fpatch : fpost;
+      const { user: updatedUser } = await apiCall({
         url: "/api/auth/user/genres",
         data: { genres: selectedGenres },
       });
       setUser(updatedUser);
+      onSuccess?.();
     } catch (err: unknown) {
       setError((err as Error)?.message || "Failed to save genres.");
     } finally {
@@ -61,11 +83,14 @@ export default function GenreSelector() {
 
   return (
     <div className="flex flex-col items-center justify-center">
-      <div className="w-full max-w-2xl space-y-8 rounded-xl bg-slate-900/70 p-8 shadow-lg [animation:pop-in_0.3s_ease-out_forwards]">
+      <div className="w-full max-w-2xl space-y-8 rounded-xl bg-slate-900/70 p-8 shadow-lg">
         <div className="text-center">
-          <h1 className="text-3xl font-bold">Welcome to MovieFlix</h1>
+          <h1 className="text-3xl font-bold">
+            {isUpdate ? "Update Your Genres" : "Welcome to MovieFlix"}
+          </h1>
           <p className="mt-2 text-lg text-mxpink">
-            Select at least 1 of your favorite genres to get started.
+            Select at least 1 of your favorite genres{" "}
+            {isUpdate ? "to update your preferences" : "to get started"}.
           </p>
         </div>
 
@@ -93,7 +118,7 @@ export default function GenreSelector() {
             Icon={ListPlus}
             fullWidth={false}
           >
-            {loading ? "Saving..." : "Save Genres"}
+            {loading ? "Saving..." : isUpdate ? "Update Genres" : "Save Genres"}
           </Button>
         </div>
       </div>

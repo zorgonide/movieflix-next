@@ -4,7 +4,7 @@ import { useUser } from "@/components/providers/user-provider";
 import { LogoutButton } from "./buttons/logoutButton";
 import { Menu, X } from "lucide-react";
 import CustomLink from "./CustomLink";
-
+import { User } from "lucide-react";
 const Header = () => {
   const { user } = useUser();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -25,11 +25,12 @@ const Header = () => {
         </CustomLink>
       )}
       {user ? (
-        <div className="flex w-full flex-col items-start gap-3 text-sm md:flex-row md:items-center ">
+        <div className="flex w-full flex-col items-start gap-3 md:flex-row md:items-center ">
           <CustomLink
             href="/profile"
             className="truncate hidden rounded p-2 font-mono font-bold text-white transition-colors duration-200 hover:bg-white hover:text-mxpurple md:block"
           >
+            <User size={16} className="mr-2 inline" />
             {user.firstName}
           </CustomLink>
           <form action="/api/auth/logout" method="POST">
