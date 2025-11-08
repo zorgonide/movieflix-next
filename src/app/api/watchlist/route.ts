@@ -41,7 +41,6 @@ export const DELETE = withAuth(async (req: NextRequest, { user }) => {
   // Read the movieId from the URL search parameters
   const { searchParams } = new URL(req.url);
   const movieIdParam = await searchParams.get("movieId");
-  console.log("Received DELETE request for movieId:", movieIdParam);
   if (!movieIdParam) {
     return NextResponse.json(
       { error: "Movie ID is required" },
@@ -50,7 +49,6 @@ export const DELETE = withAuth(async (req: NextRequest, { user }) => {
   }
 
   const movieId = parseInt(movieIdParam, 10);
-  console.log("Deleting movieId:", movieId, "for userId:", user.id);
   try {
     await db.watchList.deleteMany({
       where: {
