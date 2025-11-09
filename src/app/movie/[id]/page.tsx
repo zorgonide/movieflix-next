@@ -7,7 +7,7 @@ export default async function MoviePage({
 }: {
   params: { id: string };
 }) {
-  const movieId = parseInt(await params.id, 10);
+  const movieId = parseInt(await params?.id, 10);
 
   try {
     // Destructure the movie and the new watchlist status
