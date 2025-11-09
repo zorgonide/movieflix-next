@@ -60,8 +60,8 @@ export default function MovieRecommendations({
     <div>
       <h1 className="mb-6 text-3xl font-bold">Recommended for you</h1>
       <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-5">
-        {movies.map((movie) => (
-          <MoviePoster key={movie.id} movie={movie} />
+        {movies.map((movie, i) => (
+          <MoviePoster key={movie.id + i} movie={movie} />
         ))}
       </div>
 
