@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 import { getSessionUser } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { withAuth } from "@/lib/auth-wrapper";
 
-// Get average rating for a movie
-export async function GET(request: Request) {
+export const GET = withAuth(async (request) => {
   try {
     const { searchParams } = new URL(request.url);
     const movieId = searchParams.get("movieId");
@@ -21,7 +21,6 @@ export async function GET(request: Request) {
       _avg: { userRating: true },
       _count: { userRating: true },
     });
-
     const averageRating = aggregateResult?._avg.userRating || 0;
     const totalRatings = aggregateResult?._count.userRating;
 
@@ -53,10 +52,10 @@ export async function GET(request: Request) {
       { status: 500 }
     );
   }
-}
+});
 
 // Create or update a rating
-export async function POST(request: Request) {
+export const POST = withAuth(async (request) => {
   const user = await getSessionUser();
 
   if (!user) {
@@ -120,10 +119,10 @@ export async function POST(request: Request) {
       { status: 500 }
     );
   }
-}
+});
 
 // Delete a rating
-export async function DELETE(request: Request) {
+export const DELETE = withAuth(async (request) => {
   const user = await getSessionUser();
 
   if (!user) {
@@ -172,4 +171,4 @@ export async function DELETE(request: Request) {
       { status: 500 }
     );
   }
-}
+});
