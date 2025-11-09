@@ -135,7 +135,6 @@ export default function Comments({ movieId }: { movieId: number }) {
         </h2>
       </div>
 
-      {/* Add Comment Form */}
       {user ? (
         <form onSubmit={handleAddComment} className="space-y-4 flex flex-col">
           <textarea
@@ -161,7 +160,6 @@ export default function Comments({ movieId }: { movieId: number }) {
         <p className="text-gray-400">Please log in to leave a comment.</p>
       )}
 
-      {/* Comments List */}
       <div className="space-y-4">
         {comments.length === 0 ? (
           <p className="text-center text-gray-400 py-8">

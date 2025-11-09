@@ -20,6 +20,13 @@ const Header = () => {
       >
         Watchlist
       </CustomLink>
+      <CustomLink
+        href="/top-movies"
+        className="w-full rounded p-2 text-left font-mono font-bold text-white md:hidden"
+        onClick={closeMenu}
+      >
+        Top Movies
+      </CustomLink>
       <div className="flex w-full flex-col items-start gap-3 md:flex-row md:items-center ">
         <CustomLink
           href="/profile"
@@ -61,11 +68,17 @@ const Header = () => {
             >
               Watchlist
             </CustomLink>
+            <CustomLink
+              href="/top-movies"
+              className="hidden rounded p-2 font-mono font-bold text-white transition-colors duration-200 hover:bg-white hover:text-mxpurple md:block"
+            >
+              Top Movies
+            </CustomLink>
           </>
         )}
       </div>
 
-      {/* Right side of header (Desktop) */}
+      {/* Right§ side of header (Desktop) */}
       <div className="hidden items-center gap-4 md:flex">
         <NavLinks />
       </div>

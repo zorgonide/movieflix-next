@@ -2,7 +2,7 @@
 
 import { useUser } from "@/components/providers/user-provider";
 import GenreSelector from "../../components/ui/GenreSelector";
-import MovieRecommendations from "./MovieRecommendations";
+import MovieRecommendations from "../../components/ui/MovieRecommendations";
 
 export default function HomePage() {
   const { user } = useUser();

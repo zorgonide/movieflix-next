@@ -9,8 +9,10 @@ import MoviePoster from "@/components/ui/movie/MoviePoster";
 
 export default function MovieRecommendations({
   genreIds,
+  topmovies = false,
 }: {
-  genreIds: string;
+  genreIds?: string;
+  topmovies?: boolean;
 }) {
   const [movies, setMovies] = useState<tmdbMovie[]>([]);
   const [page, setPage] = useState(1);
@@ -20,7 +22,7 @@ export default function MovieRecommendations({
 
   useEffect(() => {
     const fetchMovies = async (pageNum: number) => {
-      if (!genreIds) return;
+      if (!topmovies && !genreIds) return;
       if (pageNum === 1) {
         setLoading(true);
       } else {
@@ -29,7 +31,9 @@ export default function MovieRecommendations({
 
       try {
         const data = await fget({
-          url: `/discover/movie?with_genres=${genreIds}&language=en&page=${pageNum}`,
+          url: !topmovies
+            ? `/discover/movie?with_genres=${genreIds}&language=en&page=${pageNum}`
+            : `/movie/top_rated?language=en&page=${pageNum}`,
           tmdb: true,
         });
 
@@ -46,7 +50,7 @@ export default function MovieRecommendations({
     };
 
     fetchMovies(page);
-  }, [genreIds, page]);
+  }, [page]);
 
   const handleLoadMore = () => {
     if (!moreLoading && hasMore) {
@@ -58,7 +62,9 @@ export default function MovieRecommendations({
 
   return (
     <div>
-      <h1 className="mb-6 text-3xl font-bold">Recommended for you</h1>
+      <h1 className="mb-6 text-3xl font-bold">
+        {!topmovies ? "Recommended for you" : "IMDb Top Movies"}
+      </h1>
       <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-5">
         {movies.map((movie, i) => (
           <MoviePoster key={movie.id + i} movie={movie} />
