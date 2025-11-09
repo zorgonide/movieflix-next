@@ -47,12 +47,20 @@ const Header = () => {
         </CustomLink>
         {/* Desktop-only Watchlist link */}
         {user && (
-          <CustomLink
-            href="/watchlist"
-            className="hidden rounded p-2 font-mono font-bold text-white transition-colors duration-200 hover:bg-white hover:text-mxpurple md:block"
-          >
-            Watchlist
-          </CustomLink>
+          <>
+            <CustomLink
+              href="/home"
+              className="hidden rounded p-2  font-mono font-bold text-white transition-colors duration-200 hover:bg-white hover:text-mxpurple md:block"
+            >
+              Home
+            </CustomLink>
+            <CustomLink
+              href="/watchlist"
+              className="hidden rounded p-2 font-mono font-bold text-white transition-colors duration-200 hover:bg-white hover:text-mxpurple md:block"
+            >
+              Watchlist
+            </CustomLink>
+          </>
         )}
       </div>
 
