@@ -21,6 +21,7 @@ export default function StarRating({
       try {
         const data = await fget({
           url: `/api/rating?movieId=${movieId}`,
+          useCache: false,
         });
         setAverageRating(data.averageRating);
         setTotalRatings(data.totalRatings);
@@ -43,6 +44,7 @@ export default function StarRating({
       const data = await fpost({
         url: "/api/rating",
         data: { movieId, rating: ratingValue },
+        useCache: false,
       });
       setRating(ratingValue);
       setAverageRating(data.averageRating);
