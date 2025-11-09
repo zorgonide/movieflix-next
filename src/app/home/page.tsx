@@ -1,7 +1,7 @@
 "use client";
 
 import { useUser } from "@/components/providers/user-provider";
-import GenreSelector from "./GenreSelector";
+import GenreSelector from "../../components/ui/GenreSelector";
 import MovieRecommendations from "./MovieRecommendations";
 
 export default function HomePage() {

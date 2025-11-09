@@ -5,7 +5,7 @@ import { useUser } from "@/components/providers/user-provider";
 import { Button } from "@/components/ui/buttons/button";
 import { User, Save } from "lucide-react";
 import { fpatch } from "@/lib/api";
-import GenreSelector from "../home/GenreSelector";
+import GenreSelector from "../../components/ui/GenreSelector";
 
 export default function ProfileClient() {
   const { user, setUser } = useUser();

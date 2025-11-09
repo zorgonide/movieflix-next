@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useUser } from "@/components/providers/user-provider";
-import { fget, fpost, fpatch } from "@/lib/api";
+import { fget, fpatch } from "@/lib/api";
 import { Button } from "@/components/ui/buttons/button";
 import { ListPlus } from "lucide-react";
 import { Genre } from "@/lib/types";
@@ -67,8 +67,7 @@ export default function GenreSelector({
     setLoading(true);
     setError(null);
     try {
-      const apiCall = isUpdate ? fpatch : fpost;
-      const { user: updatedUser } = await apiCall({
+      const { user: updatedUser } = await fpatch({
         url: "/api/auth/user/genres",
         data: { genres: selectedGenres },
       });
