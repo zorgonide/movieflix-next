@@ -41,7 +41,7 @@ export async function getOrCreateMovie(movieId: number) {
       title: tmdbMovieData.title,
       description: tmdbMovieData.overview,
       poster: tmdbMovieData.poster_path,
-      background: tmdbMovieData.backdrop_path,
+      background: tmdbMovieData.backdrop_path || "",
       year: tmdbMovieData.release_date?.slice(0, 4) || "",
       imdbRating: tmdbMovieData.vote_average,
     },
