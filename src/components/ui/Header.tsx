@@ -24,6 +24,7 @@ const Header = () => {
         <CustomLink
           href="/profile"
           className="truncate rounded p-2 font-mono font-bold text-white transition-colors duration-200 hover:bg-white hover:text-mxpurple md:block"
+          onClick={closeMenu}
         >
           <User size={16} className="mr-2 inline" />
           {user?.firstName}
