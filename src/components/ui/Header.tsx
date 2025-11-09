@@ -11,42 +11,27 @@ const Header = () => {
 
   const closeMenu = () => setIsMenuOpen(false);
 
-  // This component now contains all navigation links
   const NavLinks = () => (
     <>
-      {/* Mobile-only Watchlist link */}
-      {user && (
+      <CustomLink
+        href="/watchlist"
+        className="w-full rounded p-2 text-left font-mono font-bold text-white md:hidden"
+        onClick={closeMenu}
+      >
+        Watchlist
+      </CustomLink>
+      <div className="flex w-full flex-col items-start gap-3 md:flex-row md:items-center ">
         <CustomLink
-          href="/watchlist"
-          className="w-full rounded p-2 text-left font-mono font-bold text-white md:hidden"
-          onClick={closeMenu}
+          href="/profile"
+          className="truncate rounded p-2 font-mono font-bold text-white transition-colors duration-200 hover:bg-white hover:text-mxpurple md:block"
         >
-          Watchlist
+          <User size={16} className="mr-2 inline" />
+          {user?.firstName}
         </CustomLink>
-      )}
-      {user ? (
-        <div className="flex w-full flex-col items-start gap-3 md:flex-row md:items-center ">
-          <CustomLink
-            href="/profile"
-            className="truncate rounded p-2 font-mono font-bold text-white transition-colors duration-200 hover:bg-white hover:text-mxpurple md:block"
-          >
-            <User size={16} className="mr-2 inline" />
-            {user.firstName}
-          </CustomLink>
-          <form action="/api/auth/logout" method="POST">
-            <LogoutButton />
-          </form>
-        </div>
-      ) : (
-        <div className="flex w-full flex-col items-start gap-3 text-sm md:flex-row md:items-center">
-          <CustomLink href="/login" onClick={closeMenu}>
-            Login
-          </CustomLink>
-          <CustomLink href="/register" onClick={closeMenu}>
-            Register
-          </CustomLink>
-        </div>
-      )}
+        <form action="/api/auth/logout" method="POST">
+          <LogoutButton />
+        </form>
+      </div>
     </>
   );
 
