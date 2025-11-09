@@ -137,7 +137,7 @@ export default function Comments({ movieId }: { movieId: number }) {
 
       {/* Add Comment Form */}
       {user ? (
-        <form onSubmit={handleAddComment} className="space-y-4">
+        <form onSubmit={handleAddComment} className="space-y-4 flex flex-col">
           <textarea
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
@@ -146,14 +146,16 @@ export default function Comments({ movieId }: { movieId: number }) {
             disabled={loading}
           />
           {error && <p className="text-sm text-red-400">{error}</p>}
-          <Button
-            type="submit"
-            disabled={loading || !newComment.trim()}
-            Icon={MessageSquare}
-            fullWidth={false}
-          >
-            {loading ? "Posting..." : "Post Comment"}
-          </Button>
+          <div className="flex justify-end">
+            <Button
+              type="submit"
+              disabled={loading || !newComment.trim()}
+              Icon={MessageSquare}
+              fullWidth={false}
+            >
+              {loading ? "Posting..." : "Post Comment"}
+            </Button>
+          </div>
         </form>
       ) : (
         <p className="text-gray-400">Please log in to leave a comment.</p>
