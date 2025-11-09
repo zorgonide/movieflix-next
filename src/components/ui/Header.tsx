@@ -2,99 +2,106 @@
 import { useState } from "react";
 import { useUser } from "@/components/providers/user-provider";
 import { LogoutButton } from "./buttons/logoutButton";
-import { Menu, X } from "lucide-react";
+import { Menu, X, User } from "lucide-react";
 import CustomLink from "./CustomLink";
-import { User } from "lucide-react";
+
+const NAV_LINKS = [
+  { href: "/home", label: "Home" },
+  { href: "/watchlist", label: "Watchlist" },
+  { href: "/top-movies", label: "Top Movies" },
+] as const;
+
 const Header = () => {
   const { user } = useUser();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const closeMenu = () => setIsMenuOpen(false);
 
-  const NavLinks = () => (
-    <>
-      <CustomLink
-        href="/watchlist"
-        className="w-full rounded p-2 text-left font-mono font-bold text-white md:hidden"
-        onClick={closeMenu}
-      >
-        Watchlist
-      </CustomLink>
-      <CustomLink
-        href="/top-movies"
-        className="w-full rounded p-2 text-left font-mono font-bold text-white md:hidden"
-        onClick={closeMenu}
-      >
-        Top Movies
-      </CustomLink>
-      <div className="flex w-full flex-col items-start gap-3 md:flex-row md:items-center ">
-        <CustomLink
-          href="/profile"
-          className="truncate rounded p-2 font-mono font-bold text-white transition-colors duration-200 hover:bg-white hover:text-mxpurple md:block"
-          onClick={closeMenu}
-        >
-          <User size={16} className="mr-2 inline" />
-          {user?.firstName}
-        </CustomLink>
-        <form action="/api/auth/logout" method="POST">
-          <LogoutButton />
-        </form>
-      </div>
-    </>
-  );
-
   return (
     <header className="relative flex h-16 items-center justify-between bg-mx-light-purple p-4">
-      {/* Left side of header */}
+      {/* Left side - Logo and Desktop Nav */}
       <div className="flex items-center gap-6">
         <CustomLink
           href="/home"
-          className="text-2xl font-mono tracking-wide text-white"
+          className="font-mono text-2xl tracking-wide text-white"
         >
           MovieFlix
         </CustomLink>
-        {/* Desktop-only Watchlist link */}
+
+        {/* Desktop Navigation */}
         {user && (
-          <>
-            <CustomLink
-              href="/home"
-              className="hidden rounded p-2  font-mono font-bold text-white transition-colors duration-200 hover:bg-white hover:text-mxpurple md:block"
-            >
-              Home
-            </CustomLink>
-            <CustomLink
-              href="/watchlist"
-              className="hidden rounded p-2 font-mono font-bold text-white transition-colors duration-200 hover:bg-white hover:text-mxpurple md:block"
-            >
-              Watchlist
-            </CustomLink>
-            <CustomLink
-              href="/top-movies"
-              className="hidden rounded p-2 font-mono font-bold text-white transition-colors duration-200 hover:bg-white hover:text-mxpurple md:block"
-            >
-              Top Movies
-            </CustomLink>
-          </>
+          <nav className="hidden gap-2 md:flex">
+            {NAV_LINKS.map(({ href, label }) => (
+              <CustomLink
+                key={href}
+                href={href}
+                className="rounded p-2 font-mono font-bold text-white transition-colors duration-200 hover:bg-white hover:text-mxpurple"
+              >
+                {label}
+              </CustomLink>
+            ))}
+          </nav>
         )}
       </div>
 
-      {/* Right§ side of header (Desktop) */}
-      <div className="hidden items-center gap-4 md:flex">
-        <NavLinks />
-      </div>
+      {/* Right side - User Menu (Desktop) */}
+      {user && (
+        <>
+          <div className="hidden items-center gap-4 md:flex">
+            <CustomLink
+              href="/profile"
+              className="truncate rounded p-2 font-mono font-bold text-white transition-colors duration-200 hover:bg-white hover:text-mxpurple"
+            >
+              <User size={16} className="mr-2 inline" />
+              {user.firstName}
+            </CustomLink>
+            <form action="/api/auth/logout" method="POST">
+              <LogoutButton />
+            </form>
+          </div>
 
-      {/* Mobile Menu Button */}
-      <div className="md:hidden align-center flex">
-        <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
-          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-      </div>
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="flex items-center text-white md:hidden"
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          >
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
 
-      {/* Mobile Menu Drawer */}
-      {isMenuOpen && (
-        <div className="absolute left-0 right-0 top-16 z-20 flex flex-col items-start bg-mx-light-purple p-6 pt-0 shadow-lg md:hidden">
-          <NavLinks />
-        </div>
+          {/* Mobile Menu Drawer */}
+          {isMenuOpen && (
+            <nav className="absolute left-0 right-0 top-16 z-20 flex flex-col items-start gap-2 bg-mx-light-purple p-6 pt-0 shadow-lg md:hidden">
+              {NAV_LINKS.slice(1).map(({ href, label }) => (
+                <CustomLink
+                  key={href}
+                  href={href}
+                  className="w-full rounded p-2 text-left font-mono font-bold text-white"
+                  onClick={closeMenu}
+                >
+                  {label}
+                </CustomLink>
+              ))}
+              <div className=" flex w-full flex-col items-start gap-3">
+                <CustomLink
+                  href="/profile"
+                  className="w-full truncate rounded p-2 font-mono font-bold text-white"
+                  onClick={closeMenu}
+                >
+                  <User size={16} className="mr-2 inline" />
+                  {user.firstName}
+                </CustomLink>
+                <form
+                  action="/api/auth/logout"
+                  method="POST"
+                  className="w-full"
+                >
+                  <LogoutButton />
+                </form>
+              </div>
+            </nav>
+          )}
+        </>
       )}
     </header>
   );
