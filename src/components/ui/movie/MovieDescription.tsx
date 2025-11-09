@@ -1,5 +1,6 @@
 import { Movie } from "@prisma/client";
 import StarRating from "./StarRating";
+import Comments from "./Comments";
 
 export function MovieDescription({ movie }: { movie: Movie }) {
   return (
@@ -23,6 +24,8 @@ export function MovieDescription({ movie }: { movie: Movie }) {
         <h2 className="text-lg text-gray-300 font-semibold">Description</h2>
         <p className="mt-2 text-lg text-white">{movie.description}</p>
       </div>
+
+      <Comments movieId={movie.id} />
     </div>
   );
 }
