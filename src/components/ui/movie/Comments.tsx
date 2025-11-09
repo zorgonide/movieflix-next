@@ -129,7 +129,10 @@ export default function Comments({ movieId }: { movieId: number }) {
     <div className="mt-8 space-y-6">
       <div className="flex items-center gap-2">
         <MessageSquare size={24} className="text-mxpink" />
-        <h2 className="text-2xl font-bold">Comments ({comments.length})</h2>
+        <h2 className="text-2xl font-bold">
+          Comments{" "}
+          <span className="text-gray-400 font-mono">({comments.length})</span>
+        </h2>
       </div>
 
       {/* Add Comment Form */}
